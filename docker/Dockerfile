@@ -8,7 +8,7 @@ RUN echo '[archlinuxcn]' >> /etc/pacman.conf
 RUN echo 'Server = https://mirrors.ustc.edu.cn/archlinuxcn/$arch' >> /etc/pacman.conf
 
 # update ustc mirror repo
-RUN pacman -Sy
+RUN pacman -Syu
 # install qemu
 RUN pacman -S --noconfirm qemu qemu-arch-extra
 
