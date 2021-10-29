@@ -1,0 +1,11 @@
+
+rustos_tools_path=$(realpath $(dirname $0))/tools
+function docker_tools()
+{
+    $rustos_tools_path/docker_tools.sh $@
+}
+
+function docker_qemu()
+{
+    $rustos_tools_path/docker_qemu.sh $@
+}
