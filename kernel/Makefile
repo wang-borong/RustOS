@@ -16,8 +16,8 @@ KERNEL_BIN := kernel.bin
 .PHONY: all clean asm
 all: $(KERNEL_BIN)
 
-$(KERNEL_BIN): $(KERNEL_FILE)
-	@$(RUST_OBJCOPY) $< --strip-all -O binary $@
+#$(KERNEL_BIN): $(KERNEL_FILE)
+#	@$(RUST_OBJCOPY) $< --strip-all -O binary $@
 
 $(KERNEL_FILE):
 	@$(CARGO) build --target=riscv64gc-unknown-none-elf
@@ -28,19 +28,19 @@ CPU := rv64
 CPUS := 4
 MEM := 128M
 QEMUOPTS := -machine $(MACH) -cpu $(CPU) -smp $(CPUS) -m $(MEM) \
-			-nographic -serial mon:stdio -bios default -device loader,file=$(KERNEL_BIN),addr=0x80200000
+			-nographic -serial mon:stdio -bios default -kernel $(KERNEL_FILE)
 
-qemu: $(KERNEL_BIN)
+qemu: $(KERNEL_FILE)
 	@$(DOCKER_QEMU) $(DOCKER_IMAGE) $(QEMU_BINARY) $(QEMUOPTS)
 
-qemudbg: $(KERNEL_BIN)
+qemudbg: $(KERNEL_FILE)
 	@$(DOCKER_QEMU) $(DOCKER_IMAGE) $(QEMU_BINARY) $(QEMUOPTS) -d int -D qemu.log
 
-qemuasm: $(KERNEL_BIN)
+qemuasm: $(KERNEL_FILE)
 	@$(DOCKER_QEMU) $(DOCKER_IMAGE) $(QEMU_BINARY) $(QEMUOPTS) -d int,in_asm -D qemu.log
 
 # we should use host tools here
-qemugdb: $(KERNEL_BIN)
+qemugdb: $(KERNEL_FILE)
 	@echo Start qemu gdb debug
 	@$(DOCKER_QEMU) --name qemugdb $(DOCKER_IMAGE) $(QEMU_BINARY) $(QEMUOPTS) -S -gdb tcp::1234
 
