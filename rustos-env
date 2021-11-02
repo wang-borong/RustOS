@@ -1,3 +1,4 @@
+#!/bin/bash
 
 rustos_tools_path=$(realpath $(dirname $0))/tools
 function docker_run()
