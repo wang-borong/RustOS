@@ -6,9 +6,9 @@ DOCKER_CMD_I := $(DOCKER_CMD) -i
 
 DOCKER_QEMU := $(DOCKER_CMD_I)
 DOCKER_TOOLS := $(DOCKER_CMD)
-CARGO := $(DOCKER_TOOLS) cargo
-RUST_OBJCOPY := $(DOCKER_TOOLS) rust-objcopy --binary-architecture=riscv64
-RUST_OBJDUMP := $(DOCKER_TOOLS) rust-objdump --arch-name=riscv64
+CARGO := $(DOCKER_TOOLS) $(DOCKER_IMAGE) cargo
+RUST_OBJCOPY := $(DOCKER_TOOLS) $(DOCKER_IMAGE) rust-objcopy --binary-architecture=riscv64
+RUST_OBJDUMP := $(DOCKER_TOOLS) $(DOCKER_IMAGE) rust-objdump --arch-name=riscv64
 
 KERNEL_FILE := target/riscv64gc-unknown-none-elf/debug/kernel
 KERNEL_BIN := kernel.bin
@@ -45,7 +45,7 @@ qemugdb: $(KERNEL_BIN)
 	@$(DOCKER_QEMU) --name qemugdb $(DOCKER_IMAGE) $(QEMU_BINARY) $(QEMUOPTS) -S -gdb tcp::1234
 
 asm: $(KERNEL_FILE)
-	@$(RUST_OBJDUMP) $< > kernel.asm
+	$(RUST_OBJDUMP) -d $< > kernel.asm
 
 rungdb: $(KERNEL_FILE)
 	@python3 ../tools/run_remote_gdb.py -k $(KERNEL_FILE)
