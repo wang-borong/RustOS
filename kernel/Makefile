@@ -47,6 +47,9 @@ qemugdb: $(KERNEL_BIN)
 asm: $(KERNEL_FILE)
 	@$(RUST_OBJDUMP) $< > kernel.asm
 
+rungdb: $(KERNEL_FILE)
+	@python3 ../tools/run_remote_gdb.py -k $(KERNEL_FILE)
+
 clean:
 	@$(CARGO) clean
 	@$(RM) kernel.bin kernel.asm qemu.log
