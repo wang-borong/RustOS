@@ -45,7 +45,7 @@ qemugdb: $(KERNEL_BIN)
 	@$(DOCKER_QEMU) --name qemugdb $(DOCKER_IMAGE) $(QEMU_BINARY) $(QEMUOPTS) -S -gdb tcp::1234
 
 asm: $(KERNEL_FILE)
-	$(RUST_OBJDUMP) -d $< > kernel.asm
+	@$(RUST_OBJDUMP) -d $< > kernel.asm
 
 rungdb: $(KERNEL_FILE)
 	@python3 ../tools/run_remote_gdb.py -k $(KERNEL_FILE)

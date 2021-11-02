@@ -1,4 +1,5 @@
 .gdb_history
 qemu.log
-kernel.bin
+*.bin
 target
+*.asm
