@@ -14,7 +14,7 @@ KERNEL_FILE := target/riscv64gc-unknown-none-elf/debug/kernel
 KERNEL_BIN := kernel.bin
 
 .PHONY: all clean asm
-all: $(KERNEL_BIN)
+all: $(KERNEL_FILE)
 
 #$(KERNEL_BIN): $(KERNEL_FILE)
 #	@$(RUST_OBJCOPY) $< --strip-all -O binary $@
